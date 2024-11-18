@@ -1,0 +1,57 @@
+{
+  "name": "fixdiscover",
+  "version": "1.0.0",
+  "description": "Small CLI tool to search for Jira issues with linked PRs and Issues that are fixed in an upstream projects.",
+  "main": "src/main.ts",
+  "type": "commonjs",
+  "bin": "./dist/main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "esbuild ./src/main.js --bundle --outdir=dist --platform=node --target=node20.0.0 --packages=bundle",
+    "format": "prettier --write '**/*.ts'",
+    "format-check": "prettier --check '**/*.ts'",
+    "test": "vitest run --coverage",
+    "update-snapshots": "vitest run --update",
+    "all": "yarn && yarn run build && yarn run format && yarn test"
+  },
+  "packageManager": "yarn@4.5.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redhat-plumbers-in-action/storypointer.git"
+  },
+  "author": "jamacku@redhat.com",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/redhat-plumbers-in-action/storypointer/issues"
+  },
+  "homepage": "https://github.com/redhat-plumbers-in-action/storypointer#readme",
+  "keywords": [
+    "cli",
+    "jira",
+    "fixed",
+    "patch"
+  ],
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@octokit/core": "^6.1.2",
+    "@octokit/plugin-throttling": "^9.3.2",
+    "@octokit/types": "^13.6.1",
+    "@total-typescript/ts-reset": "0.6.1",
+    "chalk": "5.3.0",
+    "commander": "12.1.0",
+    "dotenv": "16.4.5",
+    "jira.js": "4.0.2",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "@vitest/coverage-v8": "2.1.5",
+    "esbuild": "0.24.0",
+    "prettier": "3.3.3",
+    "ts-node": "10.9.2",
+    "typescript": "5.6.3",
+    "vitest": "2.1.5"
+  }
+}

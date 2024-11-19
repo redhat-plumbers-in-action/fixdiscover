@@ -4,11 +4,6 @@ import { raise } from './util';
 
 export class Jira {
   readonly api: Version2Client;
-  readonly fields = {
-    storyPoints: 'customfield_12310243',
-    priority: 'priority',
-    severity: 'customfield_12316142',
-  };
   readonly baseJQL = 'Project = RHEL AND statusCategory = "To Do"';
   JQL = '';
 

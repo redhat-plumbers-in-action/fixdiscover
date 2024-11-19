@@ -71,6 +71,7 @@ Options:
   -c, --component [component]  issue component
   -u, --upstream [upstream]    upstream project
   -n, --nocolor                disable color output (default: false)
+  -x, --dry                    dry run (default: false)
   -h, --help                   display help for command
 ```
 
@@ -81,6 +82,8 @@ Options:
 > ```bash
 > NOCOLOR=true npx fixdiscover
 > ```
+>
+> Similarly, you can enable dry run by setting the `DRY` environment variable to `true`.
 
 ### Examples
 

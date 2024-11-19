@@ -21,14 +21,16 @@ export function isDefaultValuesDisabled(): boolean {
   return process.env['NODEFAULTS'] ? true : false;
 }
 
-export function getDefaultValue(envName: 'COMPONENT' | 'UPSTREAM' | 'NOCOLOR') {
+export function getDefaultValue(
+  envName: 'COMPONENT' | 'UPSTREAM' | 'NOCOLOR' | 'DRY'
+) {
   if (isDefaultValuesDisabled()) {
     return undefined;
   }
 
   const value = process.env[envName];
 
-  if (envName === 'NOCOLOR' && !value) {
+  if ((envName === 'NOCOLOR' || envName === 'DRY') && !value) {
     return false;
   }
 

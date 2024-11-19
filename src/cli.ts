@@ -30,11 +30,8 @@ export function cli(): Command {
       'upstream project',
       getDefaultValue('UPSTREAM')
     )
-    .option(
-      '-n, --nocolor',
-      'disable color output',
-      getDefaultValue('NOCOLOR')
-    );
+    .option('-n, --nocolor', 'disable color output', getDefaultValue('NOCOLOR'))
+    .option('-x, --dry', 'dry run', getDefaultValue('DRY'));
 
   return program;
 }
@@ -47,7 +44,7 @@ const runProgram = async () => {
   const logger = new Logger(!!options.nocolor);
 
   const jiraToken = process.env.JIRA_API_TOKEN ?? tokenUnavailable('jira');
-  const jira = new Jira('https://issues.redhat.com', jiraToken);
+  const jira = new Jira('https://issues.redhat.com', jiraToken, options.dry);
 
   const githubToken =
     process.env.GITHUB_API_TOKEN ?? tokenUnavailable('github');
@@ -88,7 +85,7 @@ const runProgram = async () => {
     }
 
     if (links.length > 0) {
-      await jira.setLabels(issue.id, ['backport']);
+      await jira.setLabels(issue.key, ['backport']);
       data.push({ key: jira.getIssueURL(issue.key), links });
     }
   }

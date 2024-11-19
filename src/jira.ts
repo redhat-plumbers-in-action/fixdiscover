@@ -9,7 +9,8 @@ export class Jira {
 
   constructor(
     readonly instance: string,
-    apiToken: string
+    apiToken: string,
+    readonly dry: boolean
   ) {
     this.api = new Version2Client({
       host: instance,
@@ -45,9 +46,14 @@ export class Jira {
     return response ?? [];
   }
 
-  async setLabels(issue: string, labels: string[]) {
+  async setLabels(key: string, labels: string[]) {
+    if (this.dry) {
+      console.debug(`DRY: setLabels(${key}, ${labels})`);
+      return;
+    }
+
     await this.api.issues.editIssue({
-      issueIdOrKey: issue,
+      issueIdOrKey: key,
       update: {
         labels: labels.map(label => ({ add: label })),
       },

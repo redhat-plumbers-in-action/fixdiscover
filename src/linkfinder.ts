@@ -2,6 +2,7 @@ import { Endpoints } from '@octokit/types';
 import { z } from 'zod';
 
 import { CustomOctokit } from './octokit';
+import { escapeRegex } from './util';
 
 const linkObjectSchema = z.object({
   url: z.string(),
@@ -18,7 +19,7 @@ export class LinkFinder {
     const [org, repo] = upstreamStr.split('/');
     this.upstream = { org, repo };
 
-    const upstreamEscaped = `${org}\\/${repo}`;
+    const upstreamEscaped = escapeRegex(`${org}/${repo}`);
 
     // Match any GitHub link to issue, PR or commit to the upstream project
     // Groups:
@@ -27,7 +28,7 @@ export class LinkFinder {
     // 2 - type of link (pull, issues, commit)
     // 3 - id or sha
     this.regex = new RegExp(
-      `https:\/\/github\.com\/${upstreamEscaped}\/((pull|issues|commit)\/([a-z\\d]+))`,
+      `https:\/\/github\\.com\/${upstreamEscaped}\/((pull|issues|commit)\/([a-z\\d]+))`,
       'g'
     );
   }

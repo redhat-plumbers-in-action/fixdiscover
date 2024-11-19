@@ -42,3 +42,7 @@ export function getOptions(inputs: OptionValues): OptionValues {
     upstream: inputs.upstream || getDefaultValue('UPSTREAM'),
   };
 }
+
+export function escapeRegex(regex: string): string {
+  return regex.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
+}

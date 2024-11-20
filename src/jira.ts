@@ -33,6 +33,8 @@ export class Jira {
     const response = await this.api.issueSearch.searchForIssuesUsingJqlPost({
       jql: this.JQL,
       fields: ['id', 'issuetype', 'summary', 'assignee', 'comment'],
+      // We should paginate this, let's set 300 for now.
+      maxResults: 300,
     });
 
     return response.issues ?? raise('Jira.getIssues(): missing issues.');

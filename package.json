@@ -1,6 +1,6 @@
 {
   "name": "fixdiscover",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Small CLI tool to search for Jira issues with linked PRs and Issues that are fixed in an upstream projects.",
   "main": "src/main.ts",
   "type": "commonjs",

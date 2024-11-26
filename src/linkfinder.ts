@@ -4,13 +4,7 @@ import { z } from 'zod';
 import { CustomOctokit } from './octokit';
 import { escapeRegex } from './util';
 
-const linkObjectSchema = z.object({
-  url: z.string(),
-  type: z.enum(['pull', 'issues', 'commit']),
-  id: z.string(),
-});
-
-export type LinkObject = z.infer<typeof linkObjectSchema>;
+import { LinkObject, linkObjectSchema } from './schema/link';
 
 export class LinkFinder {
   readonly upstream: { org: string; repo: string };
@@ -33,15 +27,20 @@ export class LinkFinder {
     );
   }
 
-  getLinks(message: string): LinkObject[] {
-    return z.array(linkObjectSchema).parse(
+  getLinks(message: string, description?: string): LinkObject[] {
+    const links = z.array(linkObjectSchema).parse(
       [...message.matchAll(this.regex)].map(match => {
         return {
           url: match[0],
+          description,
           type: match[2],
           id: match[3],
         };
       })
+    );
+
+    return links.filter(
+      (link, index, self) => index === self.findIndex(el => el.url === link.url)
     );
   }
 

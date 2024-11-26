@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-import { Data } from './cli';
+import { IssueLinks } from './schema/link';
 
 export class Logger {
   static readonly colorRegex = /\[\d+m/gm;
@@ -16,7 +16,7 @@ export class Logger {
     console.log(message.replace(Logger.colorRegex, ''));
   }
 
-  logResult(data: Data): void {
+  logResult(data: IssueLinks): void {
     if (data.length === 0) {
       this.log(chalk.greenBright('No links found'));
       return;
@@ -25,8 +25,8 @@ export class Logger {
     let issueData = '';
     const result: string[] = [];
 
-    for (const { key, links } of data) {
-      issueData = `${chalk.green(key)}\n`;
+    for (const { key, bz, links } of data) {
+      issueData = `${chalk.green(key)}\n${bz ? `${chalk.red(bz)}\n` : ''}`;
 
       for (const link of links) {
         issueData = issueData.concat(`  - ${link.type}: ${link.url}\n`);

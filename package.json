@@ -37,8 +37,9 @@
     "@actions/core": "^1.11.1",
     "@octokit/core": "^6.1.2",
     "@octokit/plugin-throttling": "^9.3.2",
-    "@octokit/types": "^13.6.1",
+    "@octokit/types": "^13.6.2",
     "@total-typescript/ts-reset": "0.6.1",
+    "bugzilla": "^3.1.4",
     "chalk": "5.3.0",
     "commander": "12.1.0",
     "dotenv": "16.4.5",
@@ -46,12 +47,12 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
-    "@types/node": "22.9.0",
+    "@types/node": "22.10.0",
     "@vitest/coverage-v8": "2.1.5",
     "esbuild": "0.24.0",
-    "prettier": "3.3.3",
+    "prettier": "3.4.0",
     "ts-node": "10.9.2",
-    "typescript": "5.6.3",
+    "typescript": "5.7.2",
     "vitest": "2.1.5"
   }
 }

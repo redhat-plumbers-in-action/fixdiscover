@@ -18,7 +18,7 @@ export function cli(): Command {
     .description(
       '🔍 A small CLI tool is used to search for Jira issues with linked PRs and issues that are fixed in upstream projects'
     )
-    .version('1.1.0');
+    .version('1.2.0');
 
   program
     .requiredOption(

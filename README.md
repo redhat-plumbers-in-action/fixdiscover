@@ -70,6 +70,7 @@ Options:
   -V, --version                output the version number
   -c, --component [component]  issue component
   -u, --upstream [upstream]    upstream project
+  --migrate                    migrate links from Bugzilla to Jira
   -n, --nocolor                disable color output (default: false)
   -x, --dry                    dry run (default: false)
   -h, --help                   display help for command

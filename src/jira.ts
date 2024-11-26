@@ -4,6 +4,10 @@ import { raise } from './util';
 
 export class Jira {
   readonly api: Version2Client;
+  readonly fields = {
+    bugzillaBug: 'customfield_12316840',
+  };
+
   readonly baseJQL = 'Project = RHEL AND statusCategory = "To Do"';
   JQL = '';
 
@@ -32,7 +36,14 @@ export class Jira {
 
     const response = await this.api.issueSearch.searchForIssuesUsingJqlPost({
       jql: this.JQL,
-      fields: ['id', 'issuetype', 'summary', 'assignee', 'comment'],
+      fields: [
+        'id',
+        'issuetype',
+        'summary',
+        'assignee',
+        'comment',
+        this.fields.bugzillaBug,
+      ],
       // We should paginate this, let's set 300 for now.
       maxResults: 300,
     });
@@ -50,7 +61,7 @@ export class Jira {
 
   async setLabels(key: string, labels: string[]) {
     if (this.dry) {
-      console.debug(`DRY: setLabels(${key}, ${labels})`);
+      //console.debug(`DRY: setLabels(${key}, ${labels})`);
       return;
     }
 
@@ -64,5 +75,41 @@ export class Jira {
 
   getIssueURL(issue: string) {
     return `${this.instance}/browse/${issue}`;
+  }
+
+  async addLink(issue: string, url: string, title: string) {
+    const links = await this.api.issueRemoteLinks.getRemoteIssueLinks({
+      issueIdOrKey: issue,
+    });
+
+    for (const link of links) {
+      if (link.object === undefined) {
+        continue;
+      }
+
+      if (link.object.url === url) {
+        console.debug(
+          `Link ${url} is already linked with Jira issue ${issue}.`
+        );
+        return;
+      }
+    }
+
+    if (this.dry) {
+      console.debug(`DRY: addLink(${issue}, ${url}, ${title})`);
+      return;
+    }
+
+    await this.api.issueRemoteLinks.createOrUpdateRemoteIssueLink({
+      issueIdOrKey: issue,
+      object: {
+        title,
+        url,
+        icon: {
+          title: 'GitHub',
+          url16x16: 'https://github.githubassets.com/favicon.ico',
+        },
+      },
+    });
   }
 }

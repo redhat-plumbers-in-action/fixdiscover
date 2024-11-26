@@ -4,13 +4,19 @@ export function raise(error: string): never {
   throw new Error(error);
 }
 
-export function tokenUnavailable(type: 'jira' | 'github'): never {
-  const tokenType =
-    type === 'jira'
-      ? 'JIRA_API_TOKEN'
-      : type === 'github'
-        ? 'GITHUB_API_TOKEN'
-        : undefined;
+export function tokenUnavailable(type: 'jira' | 'bugzilla' | 'github'): never {
+  let tokenType: string;
+  switch (type) {
+    case 'jira':
+      tokenType = 'JIRA_API_TOKEN';
+      break;
+    case 'bugzilla':
+      tokenType = 'BUGZILLA_API_TOKEN';
+      break;
+    case 'github':
+      tokenType = 'GITHUB_API_TOKEN';
+      break;
+  }
 
   return raise(
     `${tokenType} not set.\nPlease set the ${tokenType} environment variable in '~/.config/fixdiscover/.env' or '~/.env.fixdiscover' or '~/.env.'`

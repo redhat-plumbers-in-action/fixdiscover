@@ -42,7 +42,7 @@
     "bugzilla": "^3.1.4",
     "chalk": "5.6.0",
     "commander": "14.0.0",
-    "dotenv": "17.2.1",
+    "dotenv": "17.2.3",
     "jira.js": "5.2.2",
     "zod": "4.1.3"
   },

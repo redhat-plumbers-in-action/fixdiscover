@@ -34,25 +34,25 @@
     "patch"
   ],
   "dependencies": {
-    "@actions/core": "^1.11.1",
+    "@actions/core": "^2.0.2",
     "@octokit/core": "^7.0.6",
     "@octokit/plugin-throttling": "^11.0.3",
     "@octokit/types": "^16.0.0",
     "@total-typescript/ts-reset": "0.6.1",
-    "bugzilla": "^3.1.4",
+    "bugzilla": "^3.1.5",
     "chalk": "5.6.2",
     "commander": "14.0.2",
     "dotenv": "17.2.3",
     "jira.js": "5.2.2",
-    "zod": "4.1.12"
+    "zod": "4.3.6"
   },
   "devDependencies": {
-    "@types/node": "24.10.1",
-    "@vitest/coverage-v8": "4.0.10",
-    "esbuild": "0.27.0",
-    "prettier": "3.6.2",
+    "@types/node": "25.0.10",
+    "@vitest/coverage-v8": "4.0.18",
+    "esbuild": "0.27.2",
+    "prettier": "3.8.1",
     "ts-node": "10.9.2",
     "typescript": "5.9.3",
-    "vitest": "4.0.10"
+    "vitest": "4.0.18"
   }
 }

@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { Comment } from 'jira.js/out/version2/models';
+import { Comment } from 'jira.js/dist/esm/types/version2/models';
 
 import { Bugzilla } from './bugzilla';
 import { Jira } from './jira';

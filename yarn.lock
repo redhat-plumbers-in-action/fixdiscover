@@ -1086,14 +1086,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.10.0":
-  version: 1.12.2
-  resolution: "axios@npm:1.12.2"
+"axios@npm:^1.13.3":
+  version: 1.13.4
+  resolution: "axios@npm:1.13.4"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/80b063e318cf05cd33a4d991cea0162f3573481946f9129efb7766f38fde4c061c34f41a93a9f9521f02b7c9565ccbc197c099b0186543ac84a24580017adfed
+  checksum: 10c0/474c00b7d71f4de4ad562589dae6b615149df7c2583bbc5ebba96229f3f85bfb0775d23705338df072f12e48d3e85685c065a3cf6855d58968a672d19214c728
   languageName: node
   linkType: hard
 
@@ -1604,7 +1604,7 @@ __metadata:
     commander: "npm:14.0.3"
     dotenv: "npm:17.2.3"
     esbuild: "npm:0.27.2"
-    jira.js: "npm:5.2.2"
+    jira.js: "npm:5.3.0"
     prettier: "npm:3.8.1"
     ts-node: "npm:10.9.2"
     typescript: "npm:5.9.3"
@@ -1902,14 +1902,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jira.js@npm:5.2.2":
-  version: 5.2.2
-  resolution: "jira.js@npm:5.2.2"
+"jira.js@npm:5.3.0":
+  version: 5.3.0
+  resolution: "jira.js@npm:5.3.0"
   dependencies:
-    axios: "npm:^1.10.0"
-    mime: "npm:^4.0.7"
-    zod: "npm:^3.25.76"
-  checksum: 10c0/de88759e7735859763f6b88ea9f345d9f79905e806f12cbb6f127afd52898698b6baa4959071e800e3961a0d0a417188d4994f84cd4d6bc38a53d83a0bf7fae4
+    axios: "npm:^1.13.3"
+    mime: "npm:^4.1.0"
+    zod: "npm:^4.3.6"
+  checksum: 10c0/354da73edb86b1edef035eefed543d6b4709b7e3ab2c544e86b6adc4f2d0eda016d1eac9bca5dd358103de957d01f2e5e4acbdbb7caa4db9d98e14c16f4a3b11
   languageName: node
   linkType: hard
 
@@ -2012,7 +2012,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime@npm:^4.0.7":
+"mime@npm:^4.1.0":
   version: 4.1.0
   resolution: "mime@npm:4.1.0"
   bin:
@@ -2852,16 +2852,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.3.6":
+"zod@npm:4.3.6, zod@npm:^4.3.6":
   version: 4.3.6
   resolution: "zod@npm:4.3.6"
   checksum: 10c0/860d25a81ab41d33aa25f8d0d07b091a04acb426e605f396227a796e9e800c44723ed96d0f53a512b57be3d1520f45bf69c0cb3b378a232a00787a2609625307
-  languageName: node
-  linkType: hard
-
-"zod@npm:^3.25.76":
-  version: 3.25.76
-  resolution: "zod@npm:3.25.76"
-  checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
   languageName: node
   linkType: hard

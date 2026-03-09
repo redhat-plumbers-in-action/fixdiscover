@@ -16,7 +16,7 @@
     "update-snapshots": "vitest run --update",
     "all": "yarn && yarn run build && yarn run format && yarn test"
   },
-  "packageManager": "yarn@4.9.3",
+  "packageManager": "yarn@4.12.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/redhat-plumbers-in-action/storypointer.git"
@@ -34,7 +34,7 @@
     "patch"
   ],
   "dependencies": {
-    "@actions/core": "^2.0.2",
+    "@actions/core": "^3.0.0",
     "@octokit/core": "^7.0.6",
     "@octokit/plugin-throttling": "^11.0.3",
     "@octokit/types": "^16.0.0",
@@ -42,14 +42,14 @@
     "bugzilla": "^3.1.5",
     "chalk": "5.6.2",
     "commander": "14.0.3",
-    "dotenv": "17.2.3",
-    "jira.js": "5.3.0",
+    "dotenv": "17.3.1",
+    "jira.js": "5.3.1",
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@types/node": "25.1.0",
+    "@types/node": "25.3.5",
     "@vitest/coverage-v8": "4.0.18",
-    "esbuild": "0.27.2",
+    "esbuild": "0.27.3",
     "prettier": "3.8.1",
     "ts-node": "10.9.2",
     "typescript": "5.9.3",

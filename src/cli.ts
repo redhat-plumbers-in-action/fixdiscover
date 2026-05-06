@@ -1,11 +1,10 @@
 import { Command } from 'commander';
-import { Comment } from 'jira.js/dist/esm/types/version2/models';
 
 import { Bugzilla } from './bugzilla';
 import { Jira } from './jira';
 import { Logger } from './logger';
 import { getOctokit } from './octokit';
-import { getDefaultValue, getOptions, tokenUnavailable } from './util';
+import { getDefaultValue, getOptions, raise, tokenUnavailable } from './util';
 import { LinkFinder } from './linkfinder';
 
 import { IssueLinks, LinkObject } from './schema/link';
@@ -31,6 +30,7 @@ export function cli(): Command {
       'upstream project',
       getDefaultValue('UPSTREAM')
     )
+    .option('-l, --login <email>', 'Jira login email', getDefaultValue('LOGIN'))
     .option('--migrate', 'migrate links from Bugzilla to Jira')
     .option('-n, --nocolor', 'disable color output', getDefaultValue('NOCOLOR'))
     .option('-x, --dry', 'dry run', getDefaultValue('DRY'));
@@ -46,7 +46,18 @@ const runProgram = async () => {
   const logger = new Logger(!!options.nocolor);
 
   const jiraToken = process.env.JIRA_API_TOKEN ?? tokenUnavailable('jira');
-  const jira = new Jira('https://issues.redhat.com', jiraToken, options.dry);
+  const jiraLogin =
+    typeof options.login === 'string' && options.login
+      ? options.login
+      : raise(
+          'Jira login email is required. Use --login <email> or set the LOGIN environment variable.'
+        );
+  const jira = new Jira(
+    'https://redhat.atlassian.net',
+    jiraToken,
+    options.dry,
+    jiraLogin
+  );
 
   const bugzillaToken = options.migrate
     ? (process.env.BUGZILLA_API_TOKEN ?? tokenUnavailable('bugzilla'))
@@ -71,14 +82,16 @@ const runProgram = async () => {
     const externalLinks = await jira.getLinks(issue.id);
     const bugzillaBugId = jira.getBugzillaBugId(externalLinks);
 
-    for (const comment of issue.fields.comment.comments as (Comment & {
-      body?: string;
-    })[]) {
-      if (!comment?.body) {
+    const renderedComments =
+      (issue.renderedFields as Record<string, any>)?.comment?.comments ?? [];
+
+    for (const comment of renderedComments) {
+      const body: unknown = comment?.body;
+      if (typeof body !== 'string' || !body) {
         continue;
       }
 
-      const commentLinks = linkFinder.getLinks(comment.body);
+      const commentLinks = linkFinder.getLinks(body);
 
       if (commentLinks) {
         links.push(...(await linkFinder.checkUpstream(commentLinks, octokit)));
@@ -136,7 +149,10 @@ const runProgram = async () => {
       await jira.setLabels(issue.key, ['backport']);
       data.push({
         key: jira.getIssueURL(issue.key),
-        bz: bugzillaBugId ? bugzilla.getIssueURL(bugzillaBugId) : undefined,
+        bz:
+          bugzillaBugId !== null
+            ? bugzilla.getIssueURL(bugzillaBugId)
+            : undefined,
         links,
       });
     }

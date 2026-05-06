@@ -1,4 +1,5 @@
 import { OptionValues } from 'commander';
+import os from 'node:os';
 
 export function raise(error: string): never {
   throw new Error(error);
@@ -23,18 +24,31 @@ export function tokenUnavailable(type: 'jira' | 'bugzilla' | 'github'): never {
   );
 }
 
+export function getUserFromLogin(): string | undefined {
+  try {
+    const login = os.userInfo().username;
+    return `${login}@redhat.com`;
+  } catch {
+    return undefined;
+  }
+}
+
 export function isDefaultValuesDisabled(): boolean {
   return process.env['NODEFAULTS'] ? true : false;
 }
 
 export function getDefaultValue(
-  envName: 'COMPONENT' | 'UPSTREAM' | 'NOCOLOR' | 'DRY'
+  envName: 'COMPONENT' | 'UPSTREAM' | 'NOCOLOR' | 'DRY' | 'LOGIN'
 ) {
   if (isDefaultValuesDisabled()) {
     return undefined;
   }
 
   const value = process.env[envName];
+
+  if (envName === 'LOGIN' && !value) {
+    return getUserFromLogin();
+  }
 
   if ((envName === 'NOCOLOR' || envName === 'DRY') && !value) {
     return false;
@@ -48,6 +62,7 @@ export function getOptions(inputs: OptionValues): OptionValues {
     ...inputs,
     component: inputs.component || getDefaultValue('COMPONENT'),
     upstream: inputs.upstream || getDefaultValue('UPSTREAM'),
+    login: inputs.login || getDefaultValue('LOGIN'),
   };
 }
 

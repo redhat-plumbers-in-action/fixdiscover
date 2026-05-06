@@ -1,9 +1,9 @@
-import { Version2Client } from 'jira.js';
+import { Version3Client } from 'jira.js';
 
 import { raise } from './util';
 
 export class Jira {
-  readonly api: Version2Client;
+  readonly api: Version3Client;
 
   readonly baseJQL = 'Project = RHEL AND statusCategory = "To Do"';
   JQL = '';
@@ -11,13 +11,15 @@ export class Jira {
   constructor(
     readonly instance: string,
     apiToken: string,
-    readonly dry: boolean
+    readonly dry: boolean,
+    email: string
   ) {
-    this.api = new Version2Client({
+    this.api = new Version3Client({
       host: instance,
       authentication: {
-        oauth2: {
-          accessToken: apiToken,
+        basic: {
+          email,
+          apiToken,
         },
       },
     });
@@ -33,12 +35,14 @@ export class Jira {
     this.JQL += component ? ` AND component = ${component}` : '';
     this.JQL += ' ORDER BY id DESC';
 
-    const response = await this.api.issueSearch.searchForIssuesUsingJqlPost({
-      jql: this.JQL,
-      fields: ['id', 'issuetype', 'summary', 'assignee', 'comment'],
-      // We should paginate this, let's set 300 for now.
-      maxResults: 300,
-    });
+    const response =
+      await this.api.issueSearch.searchForIssuesUsingJqlEnhancedSearchPost({
+        jql: this.JQL,
+        fields: ['id', 'issuetype', 'summary', 'assignee', 'comment'],
+        expand: 'renderedFields',
+        // We should paginate this, let's set 300 for now.
+        maxResults: 300,
+      });
 
     return response.issues ?? raise('Jira.getIssues(): missing issues.');
   }

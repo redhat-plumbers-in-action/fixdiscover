@@ -68,10 +68,8 @@ const runProgram = async () => {
   for (const issue of issues) {
     let links: LinkObject[] = [];
 
-    const bugzillaBug: { bugid: number } | null =
-      issue.fields[jira.fields.bugzillaBug];
-
     const externalLinks = await jira.getLinks(issue.id);
+    const bugzillaBugId = jira.getBugzillaBugId(externalLinks);
 
     for (const comment of issue.fields.comment.comments as (Comment & {
       body?: string;
@@ -95,8 +93,8 @@ const runProgram = async () => {
       }
     }
 
-    if (options.migrate && bugzillaBug !== null) {
-      const bug = (await bugzilla.getBugs(bugzillaBug.bugid))[0];
+    if (options.migrate && bugzillaBugId !== null) {
+      const bug = (await bugzilla.getBugs(bugzillaBugId))[0];
 
       let linksForMigration: LinkObject[] = [];
 
@@ -138,7 +136,7 @@ const runProgram = async () => {
       await jira.setLabels(issue.key, ['backport']);
       data.push({
         key: jira.getIssueURL(issue.key),
-        bz: bugzillaBug ? bugzilla.getIssueURL(bugzillaBug.bugid) : undefined,
+        bz: bugzillaBugId ? bugzilla.getIssueURL(bugzillaBugId) : undefined,
         links,
       });
     }

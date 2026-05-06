@@ -62,6 +62,7 @@ describe('Utility functions', () => {
     expect(getOptions({})).toMatchInlineSnapshot(`
       {
         "component": "component",
+        "login": "username@redhat.com",
         "upstream": undefined,
       }
     `);

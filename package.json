@@ -9,7 +9,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "esbuild ./src/main.js --bundle --outdir=dist --platform=node --target=node20.0.0 --packages=bundle",
+    "build": "esbuild ./src/main.js --bundle --outdir=dist --platform=node --target=node24.0.0 --packages=bundle",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "test": "vitest run --coverage",

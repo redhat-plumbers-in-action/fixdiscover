@@ -4,9 +4,6 @@ import { raise } from './util';
 
 export class Jira {
   readonly api: Version2Client;
-  readonly fields = {
-    bugzillaBug: 'customfield_12316840',
-  };
 
   readonly baseJQL = 'Project = RHEL AND statusCategory = "To Do"';
   JQL = '';
@@ -38,14 +35,7 @@ export class Jira {
 
     const response = await this.api.issueSearch.searchForIssuesUsingJqlPost({
       jql: this.JQL,
-      fields: [
-        'id',
-        'issuetype',
-        'summary',
-        'assignee',
-        'comment',
-        this.fields.bugzillaBug,
-      ],
+      fields: ['id', 'issuetype', 'summary', 'assignee', 'comment'],
       // We should paginate this, let's set 300 for now.
       maxResults: 300,
     });
@@ -59,6 +49,21 @@ export class Jira {
     });
 
     return response ?? [];
+  }
+
+  static readonly bugzillaUrlRegex =
+    /^https?:\/\/bugzilla\.redhat\.com\/show_bug\.cgi\?id=(\d+)$/;
+
+  getBugzillaBugId(
+    links: Awaited<ReturnType<typeof this.getLinks>>
+  ): number | null {
+    for (const link of links) {
+      const match = link.object?.url?.match(Jira.bugzillaUrlRegex);
+      if (match) {
+        return Number(match[1]);
+      }
+    }
+    return null;
   }
 
   async setLabels(key: string, labels: string[]) {
